@@ -11,14 +11,16 @@ def syscb(src, *args):
         #print('')
         pprint.pprint(arg)
 
+import sys
+sys.path.append('/home/pi/shared/work/pmatic')
 import pmatic
 
-ccu = pmatic.CCU(address="http://192.168.178.39", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
+ccu = pmatic.CCU(address="http://ccu3-webui", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
 test = ccu.api.interface_get_paramset(interface="HmIP-RF",
                                          address="001718A9A77FBC:1", paramsetKey="MASTER")
 print(test)
 result = ccu.api.interface_init(interface="HmIP-RF",
-            url="http://192.168.178.35:9124", interfaceId="HmIP-RF")
+            url="http://raspberrypi:9124", interfaceId="HmIP-RF")
 test = ccu.api.interface_get_paramset(interface="HmIP-RF",
                                          address="001718A9A77FBC:1", paramsetKey="MASTER")
 print(test)
@@ -37,7 +39,7 @@ pyhomematic = HMConnection(
                                systemcallback=syscb,
                                remotes={
                                    "HmIP":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "resolvenames": "json",
@@ -54,7 +56,7 @@ pyhomematic = HMConnection(
 # items = mydoc.getElementsByTagName('item')  
 
 from xmlrpc.client import ServerProxy
-p = ServerProxy("http://192.168.178.39:2010")
+p = ServerProxy("http://ccu3-webui:2010")
 t = p.getDeviceDescription("001658A99FD1E2:1")
 print (t)
 t = p.getParamsetDescription("001658A99FD1E2:1", "MASTER")

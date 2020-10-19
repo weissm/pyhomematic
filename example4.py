@@ -13,36 +13,36 @@ def syscb(src, *args):
 
 from pyhomematic import HMConnection
 
-#pyhomematic = HMConnection(remote="192.168.178.39", remoteport=2001, systemcallback=syscb)
+#pyhomematic = HMConnection(remote="ccu3-webui", remoteport=2001, systemcallback=syscb)
 pyhomematic = HMConnection(
                                systemcallback=syscb,
                                remotes={
                                    "wired":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "port": 2000,
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW"},
                                    "Funk":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "port": 2001,
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW"},
                                    "HmIP":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "resolvenames": "json",
                                    "port": 2010},
                                    "CUxD":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "port": 8701},
                                    "groups":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
@@ -60,7 +60,7 @@ from xml.dom import minidom
 # items = mydoc.getElementsByTagName('item')  
 
 from xmlrpc.client import ServerProxy
-p = ServerProxy("http://192.168.178.39:2010")
+p = ServerProxy("http://ccu3-webui:2010")
 t = p.getDeviceDescription("001658A99FD1E2:1")
 print (t)
 t = p.getParamsetDescription("001658A99FD1E2:1", "MASTER")

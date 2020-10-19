@@ -14,14 +14,17 @@ def systemcallback(src, *args):
     print("hier:", src)
     for arg in args:
         print(arg)
+
+import sys
+sys.path.append('/home/pi/shared/work/pmatic')
 import pmatic
 
-ccu = pmatic.CCU(address="http://192.168.178.39", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
+ccu = pmatic.CCU(address="http://ccu3-webui", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
 test = ccu.api.interface_get_paramset(interface="HmIP-RF",
                                          address="001718A9A77FBC:1", paramsetKey="MASTER")
 print(test)
 result = ccu.api.interface_init(interface="HmIP-RF",
-            url="http://192.168.178.35:9124", interfaceId="HmIP-RF")
+            url="http://raspberrypi:9124", interfaceId="HmIP-RF")
 test = ccu.api.interface_get_paramset(interface="HmIP-RF",
                                          address="001718A9A77FBC:1", paramsetKey="MASTER")
 print(test)
@@ -46,7 +49,7 @@ try:
     pyhomematic = HMConnection(
 #        interface_id="myserver",
                                autostart=True,
-#                               local="192.168.178.35",
+#                               local="raspberrypi",
 #                               localport="9400",
                                systemcallback=systemcallback,
                                remotes={

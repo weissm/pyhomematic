@@ -27,7 +27,7 @@ try:
                                systemcallback=systemcallback,
                                remotes={
                                    "Funk":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "port": 2001,
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW"},

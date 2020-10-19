@@ -27,31 +27,31 @@ try:
                                systemcallback=systemcallback,
                                remotes={
                                    "wired":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "port": 2000,
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW"},
                                    "Funk":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "port": 2001,
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW"},
                                    "HmIP":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "resolvenames": "json",
                                    "port": 2010},
                                    "CUxD":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "port": 8701},
                                    "groups":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
