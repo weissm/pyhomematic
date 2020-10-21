@@ -33,12 +33,12 @@ try:
     pyhomematic = HMConnection(
                                interface_id="myserver",
 #                               autostart=True,
-                               local="192.168.178.35",
+                               local="raspberrypi",
                                localport=7080,
                                systemcallback=systemcallback,
                                remotes={
                                    "Funk":{
-                                   "ip":"192.168.178.39",
+                                   "ip":"ccu3-webui",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "resolvenames": "json",
@@ -48,17 +48,23 @@ try:
 except Exception:
     sys.exit(1)
 
+import sys
+sys.path.append('/home/pi/shared/work/pmatic')
 import pmatic
 
-ccu = pmatic.CCU(address="http://192.168.178.39", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
+print ("--------------------------------------------------------------------------------------------------")
+ccu = pmatic.CCU(address="http://ccu3-webui", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
 test = ccu.api.interface_get_paramset(interface="HmIP-RF",
                                          address="001718A9A77FBC:1", paramsetKey="MASTER")
 print(test)
+test = ccu.api.interface_get_paramset(interface="CUxD",
+                                         address="CUX2801001:1", paramsetKey="MASTER")
+print("hier: ", test)
 result = ccu.api.interface_init(interface="HmIP-RF",
-            url="http://192.168.178.35:9124", interfaceId="HmIP-RF")
+            url="http://ccu3-webui:9124", interfaceId="HmIP-RF")
 test = ccu.api.interface_get_paramset(interface="HmIP-RF",
                                          address="001718A9A77FBC:1", paramsetKey="MASTER")
-print(test)
+print("from 9124", test)
 
 test = pmatic.events.EventListener(ccu)
 test._register_with_ccu(interface = "HmIP-RF", interfaceId = "HmIP-RF")
@@ -66,6 +72,7 @@ test = ccu.api.interface_get_paramset(interface="HmIP-RF",
                                          address="001718A9A77FBC:1", paramsetKey="MASTER")
 print(test)
 
+print ("--------------------------------------------------------------------------------------------------")
 pyhomematic.start()
 
 
@@ -87,7 +94,7 @@ test = ccu.api.interface_get_paramset(interface="HmIP-RF",
 
 
 from xmlrpc.client import ServerProxy
-p2 = ServerProxy("http://192.168.178.39:2010")
+p2 = ServerProxy("http://ccu3-webui:2010")
 t = p2.getParamset("001718A9A77FBC:1", "MASTER")
 print ("after init proxie1", t)
 
@@ -98,7 +105,7 @@ print(pyhomematic.listBidcosInterfaces("Funk"))
 print(pyhomematic.devices['Funk'])
 
 # Get level of rollershutter from 0.0 to 1.0.
-print(pyhomematic.devices[DEVICE1])
+print(pyhomematic.devices_all["Funk"][DEVICE1])
 
 # Set level of rollershutter to 50%.
 pyhomematic.devices[DEVICE1].set_level(0.5)
