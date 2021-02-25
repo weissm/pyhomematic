@@ -27,31 +27,51 @@ try:
                                systemcallback=systemcallback,
                                remotes={
                                    "wired":{
+<<<<<<< HEAD
                                    "ip":"192.168.178.39",
+=======
+                                   "ip":"ccu3-webui",
+>>>>>>> e60a0f356bff1ab281ac59deffbdd9072874b8ad
                                    "port": 2000,
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW"},
                                    "Funk":{
+<<<<<<< HEAD
                                    "ip":"192.168.178.39",
+=======
+                                   "ip":"ccu3-webui",
+>>>>>>> e60a0f356bff1ab281ac59deffbdd9072874b8ad
                                    "port": 2001,
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW"},
                                    "HmIP":{
+<<<<<<< HEAD
                                    "ip":"192.168.178.39",
+=======
+                                   "ip":"ccu3-webui",
+>>>>>>> e60a0f356bff1ab281ac59deffbdd9072874b8ad
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "resolvenames": "json",
                                    "port": 2010},
                                    "CUxD":{
+<<<<<<< HEAD
                                    "ip":"192.168.178.39",
+=======
+                                   "ip":"ccu3-webui",
+>>>>>>> e60a0f356bff1ab281ac59deffbdd9072874b8ad
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "port": 8701},
                                    "groups":{
+<<<<<<< HEAD
                                    "ip":"192.168.178.39",
+=======
+                                   "ip":"ccu3-webui",
+>>>>>>> e60a0f356bff1ab281ac59deffbdd9072874b8ad
                                    "resolvenames": "json",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",

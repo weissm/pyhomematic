@@ -3,10 +3,9 @@ import sys
 import logging
 import click
 from pyhomematic import HMConnection
-from pyhomematic.devicetypes.actors import GenericSwitch
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, \
-    HelperValveState, HelperInhibit
-from pyhomematic.devicetypes.sensors import WeatherSensor, AreaThermostat, ShutterContact, Smoke, Motion, Remote
+from pyhomematic.devicetypes.actors import GenericSwitch, IPWKeyBlindMulti, KeyBlind
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
+from pyhomematic.devicetypes.sensors import WeatherSensor, IPWeatherSensor, AreaThermostat, ShutterContact, IPShutterContact, Smoke, Motion, Remote
 from pyhomematic.devicetypes.thermostats import HMThermostat, IPThermostat
 
 
@@ -53,6 +52,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
                                    remote=remote,
                                    remoteport=remoteport,
                                    autostart=True,
+                                   resolvenames="json",
                                    rpcusername=user,
                                    rpcpassword=password,
                                    systemcallback=systemcallback)
@@ -66,19 +66,21 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
         print("Waiting for devices")
         sleepcounter += 1
         time.sleep(1)
-    print(pyhomematic.devices)
+    if debug:
+        print(pyhomematic.devices)
 
     # read system variables
     print("******************************")
-    print("Read all: %s" % str(pyhomematic.getAllSystemVariables('default')))
-    if variable is not None:
-        pyhomematic.setSystemVariable(variable, data)
-        print("Read: %s" % str(pyhomematic.getSystemVariable(variable)))
-    print("******************************")
+    if debug:
+        print("Read all: %s" % str(pyhomematic.getAllSystemVariables('default')))
+        if variable is not None:
+            pyhomematic.setSystemVariable(variable, data)
+            print("Read: %s" % str(pyhomematic.getSystemVariable(variable)))
+        print("******************************")
 
     # need test a hm object?
-    if address in pyhomematic.devices:
-        device = pyhomematic.devices[address]
+    if address in pyhomematic.devices['default']:
+        device = pyhomematic.devices['default'][address]
 
         print("******************************")
         print("* Show metadata from %s" % address)
@@ -91,10 +93,14 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
         print("* Attribute datapoint: %s" % str(device.ATTRIBUTENODE))
         print("* Event datapoint: %s" % str(device.EVENTNODE))
         print("* Action datapoint: %s" % str(device.ACTIONNODE))
+        print("* Name datapoint: %s" % str(device.NAME))
+        if (channel):
+            channel_device = pyhomematic.devices_all['default'][address+":"+channel]
+            print("* Channel Name datapoint: %s" % str(channel_device.NAME))
         print("******************************")
 
         # WeatherSensor
-        if isinstance(device, WeatherSensor):
+        if isinstance(device, WeatherSensor) or isinstance(device, IPWeatherSensor):
             print(" / Temperature: %f" % device.get_temperature())
             print(" / Humidity: %i" % device.get_humidity())
             print(" / Rain Counter: %f" % device.get_rain_counter())
@@ -111,7 +117,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
             print(" / Humidity: %i" % device.get_humidity())
 
         # ShutterContact
-        if isinstance(device, ShutterContact):
+        if isinstance(device, ShutterContact) or isinstance(device, IPShutterContact):
             print(" / Contact open: %s" % str(device.is_open()))
 
         # Smoke
@@ -134,12 +140,31 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
 
         # Switch
         if isinstance(device, GenericSwitch):
-            print(" / Switch is on: %s" % str(device.is_on(channel)))
+            switch_state = device.is_on(channel)
+            print(" / Switch is on: %s" % str(switch_state))
 
             if toggle:
-                print(" / Changee state to: %s" % str(bool(state)))
+                if (switch_state):
+                    device.set_state(False, channel)
+                else:
+                    device.set_state(True, channel)
+                print(" / Switch toogle to: %s" % str(device.is_on(channel)))
+            else:
+                print(" / Change state to: %s" % str(bool(state)))
                 device.set_state(bool(state), channel)
                 print(" / Switch is on: %s" % str(device.is_on(channel)))
+
+        # KeyBlind, IPWKeyBlindMulti
+        if isinstance(device, IPWKeyBlindMulti):
+            level = device.get_level(int(channel))
+            print(" / KeyBlind is on level: %s" % str(level))
+
+            if toggle:
+                if (level > 0):
+                    device.move_down(int(channel))
+                else:
+                    device.move_up(int(channel))
+                print(" / KeyBlind is on level: %s" % str(level))
 
         # Thermostat
         if isinstance(device, HMThermostat):
